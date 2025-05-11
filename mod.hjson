@@ -1,20 +1,20 @@
 #the mod name as displayed in-game
-displayName: "Test"
+displayName: "Irion Planet"
 
 #the internal name of your mod
-name: "test"
+name: "irion-planet"
 
 #your name
-author: "You"
+author: "Your Name"
 
 #the fully qualified main class of the mod
-main: "modTest.Main"
+main: "irion.IrionMod"
 
 #the mod description as seen in the mod dialog
-description: "Test"
+description: "Adds a new planet called Irion with custom terrain generation."
 
 #the mod version
-version: "0.1"
+version: "1.0"
 
 #the minimum game build required to run this mod
 minGameVersion: "146"
