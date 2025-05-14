@@ -1,5 +1,7 @@
 package modTest.planets;
 
+import mindustry.type.Planet;
+
 public class PlanetManager {
 
     private static PlanetManager instance;
