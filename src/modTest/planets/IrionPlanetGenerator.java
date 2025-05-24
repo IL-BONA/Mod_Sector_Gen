@@ -9,8 +9,6 @@ import mindustry.content.Blocks;
 import mindustry.maps.generators.*;
 import mindustry.type.Sector;
 import mindustry.world.Block;
-import mindustry.world.Tile;
-import mindustry.world.Tiles;
 
 public class IrionPlanetGenerator extends PlanetGenerator {
 
@@ -48,7 +46,6 @@ public class IrionPlanetGenerator extends PlanetGenerator {
     public void generateSector(Sector sector) {
         // Generate basic sector
         super.generateSector(sector);
-
         
     }
 

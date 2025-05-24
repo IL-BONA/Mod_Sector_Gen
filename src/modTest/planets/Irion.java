@@ -5,7 +5,6 @@ import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.game.Team;
 import arc.graphics.Color;
-import arc.math.Mathf;
 import mindustry.graphics.Pal;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
@@ -31,7 +30,7 @@ public class Irion extends Planet {
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
             allowLaunchLoadout = true;
-            //doesn't play well with configs
+            
             prebuildBase = false;
             ruleSetter = r -> {
                 r.waveTeam = Team.crux;

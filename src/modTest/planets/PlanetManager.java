@@ -14,7 +14,9 @@ public class PlanetManager {
     }
 
     private PlanetManager() {
-        
+        Planet irion = new Irion();
+        irion.visible = true;
+        irion.init();
     }
 
 }
