@@ -1,37 +1,63 @@
 package mod.planets;
 
-import arc.*;
 import arc.graphics.*;
-import arc.math.*;
 import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
-import arc.util.noise.*;
-import mindustry.ai.*;
-import mindustry.ai.BaseRegistry.*;
 import mindustry.content.*;
-import mindustry.game.*;
-import mindustry.gen.*;
+import mindustry.game.Team;
+import mindustry.graphics.g3d.PlanetGrid.Ptile;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
-
-import static mindustry.Vars.*;
+import mindustry.world.blocks.environment.Floor;
 
 public class IrionPlanetGenerator extends PlanetGenerator{
 
     @Override
-    public float getHeight(Vec3 position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHeight'");
+    public float getHeight(Vec3 position){
+        float height = 1.10f;
+        return Math.max(height, 11);
     }
 
     @Override
-    public Color getColor(Vec3 position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getColor'");
+    public Color getColor(Vec3 position){
+        Block block = Blocks.sand;
+        //replace salt with sand color
+        if(block == Blocks.salt) return Blocks.sand.mapColor;
+        return Tmp.c1.set(block.mapColor).a(1f - block.albedo);
     }
+
+     @Override
+    public void generateSector(Sector sector){
+        Ptile tile = sector.tile;               // nota;  non so perchè l'ho fatto manualmente.         
+        sector.setName("NIGGERS");         // nota;  nome NON si cambia capito?
+    }
+
+    @Override
+    public void generate() {
+          int x =0 , y = 0;
+          Tile tile = tiles.getn(x, y);   // nota;  per qualche motivo se non metto qualcosa dentro VSCODE
+        for(x = 0; x < 200; x++){         // mi da errore nella linea 54, da chiedere a Luca.
+            for(y = 0; y < 200; y++){
+                                          // nota;  con amore e girlpower, Rush ;)
+                tile = tiles.getn(x, y);
+                tile.setFloorNet(Blocks.sand);
+                tile.setOverlay(Blocks.air);
+            }
+        }
+    /*
+    Tile tile = tiles.getn(x, y);
+    tile.setFloor(Blocks.sand);
+    tile.setOverlay(Blocks.air);                            nota; IL CAZZO DI VUOTO INFINITO NON SE NE VA
+    tile.setTile(tile, Blocks.coreShard,Team.sharded, 0);   nota; CHE COSA DOVREBBE FARE QUESTO CAZZO DI COMANDO??
+    */
+    tile.setBlock(Blocks.coreShard, Team.sharded);
+       
+    // nota; per qualche motivo se cancello i dati della campagna dopo aver caricato la mod il pianeta si sminchia.
+    // PRIMA CANCELLA DATI DEL GIOCO, POI CARICA LA MOD, POI RICOMINCIA LA CAMPAGNA.
+
+    }
+   
 /*    //alternate, less direct generation (wip)
     public static boolean alt = false;
 

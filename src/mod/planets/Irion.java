@@ -13,17 +13,14 @@ import mindustry.maps.planet.SerpuloPlanetGenerator;
 public class Irion extends Planet {
     public Irion() {
         super("Irion", Planets.sun, 1f, 3);
-        generator = new SerpuloPlanetGenerator();
-        generator.seed = (int) Math.random() % 100000000;
+        generator = new IrionPlanetGenerator();
         meshLoader = () -> new HexMesh(this, 6);
         cloudMeshLoader = () -> new MultiMesh(
                 new HexSkyMesh(this, 11, 0.15f, 0.13f, 5, new Color().set(Pal.spore).mul(0.9f).a(0.75f), 2, 0.45f, 0.9f,
                         0.38f),
-                new HexSkyMesh(this, 1, 0.6f, 0.16f, 5, Color.white.cpy().lerp(Pal.spore, 0.55f).a(0.75f), 2, 0.45f, 1f,
+                new HexSkyMesh(this, 1, 0.6f, 0.16f, 5, Color.pink.cpy().lerp(Pal.spore, 0.55f).a(0.75f), 2, 0.45f, 1f,
                         0.41f));
-
         launchCapacityMultiplier = 0.5f;
-        sectorSeed = (int) Math.random() % 100000000;
         allowWaves = true;
         allowWaveSimulation = true;
         allowSectorInvasion = true;
@@ -35,11 +32,11 @@ public class Irion extends Planet {
         ruleSetter = r -> {
             r.waveTeam = Team.crux;
             r.placeRangeCheck = false;
-            r.showSpawns = false;
+            r.showSpawns = true;
             r.coreDestroyClear = true;
         };
         iconColor = Color.valueOf("7d4dff");
-        atmosphereColor = Color.valueOf("3c1b8f");
+        atmosphereColor = Color.valueOf("00ffff");
         atmosphereRadIn = 0.02f;
         atmosphereRadOut = 0.3f;
         startSector = 15;
