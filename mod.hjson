@@ -8,7 +8,7 @@ name: "test"
 author: "You"
 
 #the fully qualified main class of the mod
-main: "modTest.Main"
+main: "mod.Main"
 
 #the mod description as seen in the mod dialog
 description: "Test"

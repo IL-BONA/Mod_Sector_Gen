@@ -1,10 +1,8 @@
-package modTest;
+package mod;
 
 import arc.util.Log;
 import mindustry.mod.Mod;
-import mindustry.type.Planet;
-import modTest.planets.Irion;
-import modTest.planets.PlanetManager;
+import mod.planets.PlanetManager;
 
 public class Main extends Mod {
 

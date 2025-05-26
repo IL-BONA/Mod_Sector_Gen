@@ -1,4 +1,4 @@
-package modTest.planets;
+package mod.planets;
 
 import mindustry.type.Planet;
 
