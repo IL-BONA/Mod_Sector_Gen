@@ -36,7 +36,7 @@ public class IrionPlanetGenerator extends PlanetGenerator{
     @Override
     public void generate() {
           int x =0 , y = 0;
-          Tile tile = tiles.getn(x, y);   // nota;  per qualche motivo se non metto qualcosa dentro VSCODE
+          Tile tile = tiles.getn(x, y);   // nota;  per qualche motivo se non metto qualcosa dentro tile, VSCODE
         for(x = 0; x < 200; x++){         // mi da errore nella linea 54, da chiedere a Luca.
             for(y = 0; y < 200; y++){
                                           // nota;  con amore e girlpower, Rush ;)
