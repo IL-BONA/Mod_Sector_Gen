@@ -22,6 +22,8 @@ public class IrionPlanetGenerator extends PlanetGenerator {
     float waterOffset = 0.07f;
     boolean genLakes = false;
 
+    MapGenerator mapGenerator;
+
     ObjectMap<Block, Block> tars = ObjectMap.of(
             Blocks.sporeMoss, Blocks.shale,
             Blocks.moss, Blocks.shale);
@@ -50,7 +52,7 @@ public class IrionPlanetGenerator extends PlanetGenerator {
             genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
         }
 
-        //tile.block = tiles.getn((int) position.x, (int) position.y).floor().wall;
+        // tile.block = tiles.getn((int) position.x, (int) position.y).floor().wall;
         tile.block = Blocks.stoneWall;
         if (genWalls[(int) (position.x + position.y * width)]) {
             tile.block = Blocks.air;
@@ -158,7 +160,9 @@ public class IrionPlanetGenerator extends PlanetGenerator {
          */
 
         // Genera la mappa con aree tematiche
-        generateAreeMap();
+        //generateAreeMap();
+        MapGenerator mapGenerator = new MapGenerator(tiles);
+        mapGenerator.generate();
 
         surround(Blocks.coreNucleus, tiles.width / 2, tiles.height / 2, Blocks.coreZone);
 

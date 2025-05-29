@@ -1,9 +1,16 @@
 package mod.planets;
 
 import mindustry.type.Planet;
+import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.content.Planets;
+import mindustry.content.SerpuloTechTree;
+import mindustry.content.UnitTypes;
+import mindustry.game.Objectives.Research;
+import mindustry.game.Objectives.SectorComplete;
 import mindustry.game.Team;
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.graphics.Pal;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
@@ -47,5 +54,8 @@ public class Irion extends Planet {
         startSector = 15;
         alwaysUnlocked = true;
         landCloudColor = Pal.spore.cpy().a(0.5f);
+
+        // Vedere il techtree
     }
+
 }
