@@ -31,7 +31,7 @@ public class MapGenerator {
         Block[] overlays = { Blocks.oreCoal, Blocks.oreCopper, Blocks.oreLead, Blocks.oreScrap, Blocks.oreThorium,
                 Blocks.oreTitanium };
         for (int s = 0; s < overlays.length; s++) {
-            boolean[] boolOverlay = RandomGen.generate(tiles.width, tiles.height, 4, 3, seed++);
+            boolean[] boolOverlay = RandomGen.generate(tiles.width, tiles.height, 4, 3, seed+=10);
             for (int z = 0; z < boolOverlay.length; z++) {
                 if (!boolOverlay[z] && tiles.geti(z).floor() != Blocks.water && tiles.geti(z).floor() != Blocks.sand
                         && tiles.geti(z).floor() != Blocks.deepwater)
@@ -40,7 +40,7 @@ public class MapGenerator {
         }
 
         // Wall
-        boolean[] boolWalls = RandomGen.generate(tiles.width, tiles.height, 4, 5, seed++);
+        boolean[] boolWalls = RandomGen.generate(tiles.width, tiles.height, 4, 5, seed);
         for (int z = 0; z < boolWalls.length; z++) {
             if (!boolWalls[z])
                 if (tiles.geti(z).floor() != Blocks.water && tiles.geti(z).floor() != Blocks.deepwater)
