@@ -44,33 +44,33 @@ public class IrionPlanetGenerator extends PlanetGenerator {
         return Tmp.c1.set(block.mapColor).a(1f - block.albedo);
     }
 
-    @Override
-    // Funzione che genera i muri
-    // Per ora non funziona
-    public void genTile(Vec3 position, TileGen tile) {
-        if (genWalls == null) {
-            genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
-        }
-
-        // tile.block = tiles.getn((int) position.x, (int) position.y).floor().wall;
-        tile.block = Blocks.stoneWall;
-        if (genWalls[(int) (position.x + position.y * width)]) {
-            tile.block = Blocks.air;
-        }
-        /*
-         * tile.floor = getBlock(position);
-         * if (genWalls == null) {
-         * genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
-         * }
-         * tile.block = (genWalls[(int) (position.x + position.y * width)]) ?
-         * tile.floor.asFloor().wall : Blocks.air;
-         * 
-         * if(Ridged.noise3d(seed + 1, position.x, position.y, position.z, 2, 22) >
-         * 0.31){
-         * tile.block = Blocks.air;
-         * }
-         */
-    }
+//    @Override
+//    // Funzione che genera i muri
+//    // Per ora non funziona
+//    public void genTile(Vec3 position, TileGen tile) {
+//        if (genWalls == null) {
+//            genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
+//        }
+//
+//        // tile.block = tiles.getn((int) position.x, (int) position.y).floor().wall;
+//        tile.block = Blocks.stoneWall;
+//        if (genWalls[(int) (position.x + position.y * width)]) {
+//            tile.block = Blocks.air;
+//        }
+//        /*
+//         * tile.floor = getBlock(position);
+//         * if (genWalls == null) {
+//         * genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
+//         * }
+//         * tile.block = (genWalls[(int) (position.x + position.y * width)]) ?
+//         * tile.floor.asFloor().wall : Blocks.air;
+//         * 
+//         * if(Ridged.noise3d(seed + 1, position.x, position.y, position.z, 2, 22) >
+//         * 0.31){
+//         * tile.block = Blocks.air;
+//         * }
+//         */
+//    }
 
     /*----------*/
     static boolean[] genWalls;
@@ -173,18 +173,18 @@ public class IrionPlanetGenerator extends PlanetGenerator {
         tiles.getn(tiles.width / 2, tiles.height / 2).setBlock(Blocks.coreNucleus, Team.sharded);
     }
 
-    private void generateAreeMap() {
-
-        boolean[] walls = RandomGen.generate(tiles.width, tiles.height, 0);
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                // tiles.getn(x,y).setBlock(walls[x + y * width] ? Blocks.stone : Blocks.sand);
-                Tile.setFloor(tiles.getn(x, y), walls[x + y * width] ? Blocks.stone : Blocks.sand, Blocks.air);
-            }
-        }
-
-    }
+//    private void generateAreeMap() {
+//
+//        boolean[] walls = RandomGen.generate(tiles.width, tiles.height, 0);
+//
+//        for (int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                // tiles.getn(x,y).setBlock(walls[x + y * width] ? Blocks.stone : Blocks.sand);
+//                Tile.setFloor(tiles.getn(x, y), walls[x + y * width] ? Blocks.stone : Blocks.sand, Blocks.air);
+//            }
+//        }
+//
+//    }
 
     private void surround(Block source, int blockX, int blockY, Block floor) {
         int blockSize = source.size;
