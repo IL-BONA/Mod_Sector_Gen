@@ -2,6 +2,8 @@ package mod.planets;
 
 import mindustry.type.Planet;
 
+import mindustry.type.Planet;
+
 public class PlanetManager {
 
     private static PlanetManager instance;

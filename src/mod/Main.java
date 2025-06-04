@@ -2,7 +2,10 @@ package mod;
 
 import arc.util.Log;
 import mindustry.mod.Mod;
+import mindustry.type.Planet;
+import mod.planets.Irion;
 import mod.planets.PlanetManager;
+
 
 public class Main extends Mod {
 
@@ -24,6 +27,12 @@ public class Main extends Mod {
     @Override
     public void loadContent() {
         Log.info("Loading Test Mod content...");
+
         PlanetManager.getInstance();
+
+        Planet irion = new Irion();
+        irion.visible = true;
+        irion.init();
+
     }
 }
