@@ -30,9 +30,5 @@ public class Main extends Mod {
 
         PlanetManager.getInstance();
 
-        Planet irion = new Irion();
-        irion.visible = true;
-        irion.init();
-
     }
 }

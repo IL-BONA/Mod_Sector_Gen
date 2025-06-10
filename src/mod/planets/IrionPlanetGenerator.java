@@ -14,6 +14,8 @@ import mindustry.type.Sector;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.TileGen;
+import mod.sectors.OreConfig;
+import mod.sectors.OreGenerator;
 
 public class IrionPlanetGenerator extends PlanetGenerator {
 
@@ -46,34 +48,6 @@ public class IrionPlanetGenerator extends PlanetGenerator {
         if (block == Blocks.salt)
             return Blocks.sand.mapColor;
         return Tmp.c1.set(block.mapColor).a(1f - block.albedo);
-    }
-
-    @Override
-    // Funzione che genera i muri
-    // Per ora non funziona
-    public void genTile(Vec3 position, TileGen tile) {
-        if (genWalls == null) {
-            genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
-        }
-
-        // tile.block = tiles.getn((int) position.x, (int) position.y).floor().wall;
-        tile.block = Blocks.stoneWall;
-        if (genWalls[(int) (position.x + position.y * width)]) {
-            tile.block = Blocks.air;
-        }
-        /*
-         * tile.floor = getBlock(position);
-         * if (genWalls == null) {
-         * genWalls = RandomGen.generate(tiles.width, tiles.height, 0);
-         * }
-         * tile.block = (genWalls[(int) (position.x + position.y * width)]) ?
-         * tile.floor.asFloor().wall : Blocks.air;
-         * 
-         * if(Ridged.noise3d(seed + 1, position.x, position.y, position.z, 2, 22) >
-         * 0.31){
-         * tile.block = Blocks.air;
-         * }
-         */
     }
 
     /*----------*/
@@ -160,95 +134,11 @@ public class IrionPlanetGenerator extends PlanetGenerator {
         // Initialize ore generator
         oreGenerator = new OreGenerator(tiles, seed + oreSeed);
 
-        // Generate base terrain using the advanced map generator
-        generateAdvancedTerrain();
-
         // Generate ores with custom configuration for this planet
         generatePlanetOres();
 
         // Place core and surrounding area
         generateCoreArea();
-    }
-
-    /**
-     * Generate advanced terrain with multiple layers
-     */
-    private void generateAdvancedTerrain() {
-        // Base stone layer
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Tile.setFloor(tiles.getn(x, y), Blocks.stone, Blocks.air);
-            }
-        }
-
-        // Generate different floor types in layers
-        generateFloorLayer(Blocks.sand, 4, 25, seed + 100);
-        generateFloorLayer(Blocks.darksand, 3, 15, seed + 200);
-        generateFloorLayer(Blocks.basalt, 3, 20, seed + 300);
-        generateFloorLayer(Blocks.moss, 2, 10, seed + 400);
-        generateFloorLayer(Blocks.sporeMoss, 2, 8, seed + 500);
-        generateFloorLayer(Blocks.salt, 2, 12, seed + 600);
-        generateFloorLayer(Blocks.snow, 3, 18, seed + 700);
-        generateFloorLayer(Blocks.ice, 2, 15, seed + 800);
-
-        // Generate water bodies
-        //generateWaterBodies();
-
-        // Generate walls (commented out your existing wall logic, but keeping it available)
-        // generateWalls();
-    }
-
-    /**
-     * Generate a specific floor type using noise and cellular automata
-     */
-    private void generateFloorLayer(Block floorType, int iterations, int percentCoverage, int layerSeed) {
-        boolean[] floorMask = RandomGen.generate(tiles.width, tiles.height, iterations, percentCoverage, layerSeed);
-        
-        for (int i = 0; i < floorMask.length; i++) {
-            if (floorMask[i]) {
-                int x = i % tiles.width;
-                int y = i / tiles.width;
-                Tile tile = tiles.getn(x, y);
-                
-                // Only place floor if it's still the default stone floor
-                if (tile.floor() == Blocks.stone) {
-                    Tile.setFloor(tile, floorType, Blocks.air);
-                }
-            }
-        }
-    }
-
-    /**
-     * Generate water bodies and rivers
-     */
-    private void generateWaterBodies() {
-        // Generate water patches with reduced frequency
-        boolean[] waterMask = RandomGen.generate(tiles.width, tiles.height, 3, 8, seed + 1000); // Reduced from 15 to 8
-        boolean[] deepWaterMask = RandomGen.generate(tiles.width, tiles.height, 2, 4, seed + 1100); // Reduced from 8 to 4
-        
-        for (int i = 0; i < waterMask.length; i++) {
-            if (waterMask[i]) {
-                int x = i % tiles.width;
-                int y = i / tiles.width;
-                Tile tile = tiles.getn(x, y);
-                
-                // Only place water if it's not too close to the center
-                float distFromCenter = Mathf.sqrt((x - tiles.width/2) * (x - tiles.width/2) + 
-                                                (y - tiles.height/2) * (y - tiles.height/2));
-                if (distFromCenter < 20) continue; // Skip water placement near center
-                
-                Block waterType = deepWaterMask[i] ? Blocks.deepwater : Blocks.water;
-                
-                // Use appropriate water type based on surrounding floor
-                if (tile.floor() == Blocks.darksand) {
-                    waterType = deepWaterMask[i] ? Blocks.deepTaintedWater : Blocks.darksandTaintedWater;
-                } else if (tile.floor() == Blocks.sand) {
-                    waterType = deepWaterMask[i] ? Blocks.deepwater : Blocks.sandWater;
-                }
-                
-                Tile.setFloor(tile, waterType, Blocks.air);
-            }
-        }
     }
 
     /**
@@ -324,32 +214,6 @@ public class IrionPlanetGenerator extends PlanetGenerator {
                             tile.setOverlay(Blocks.air);
                         }
                     }
-                }
-            }
-        }
-    }
-
-    /**
-     * Generate walls (your existing logic, modified)
-     */
-    private void generateWalls() {
-        boolean[] wallMask = RandomGen.generate(tiles.width, tiles.height, 4, 15, seed + 2000);
-        
-        for (int i = 0; i < wallMask.length; i++) {
-            if (wallMask[i]) {
-                int x = i % tiles.width;
-                int y = i / tiles.width;
-                Tile tile = tiles.getn(x, y);
-                
-                // Don't place walls on water or in core area
-                if (!tile.floor().isLiquid && 
-                    Mathf.sqrt((x - tiles.width/2) * (x - tiles.width/2) + 
-                               (y - tiles.height/2) * (y - tiles.height/2)) > 10) {
-                    
-                    Block wallType = tile.floor().wall;
-                    if (wallType == null) wallType = Blocks.stoneWall;
-                    
-                    tile.setBlock(wallType);
                 }
             }
         }

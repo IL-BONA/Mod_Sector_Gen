@@ -1,4 +1,4 @@
-package mod.planets;
+package mod.sectors;
 
 import mindustry.content.Blocks;
 import mindustry.world.Block;

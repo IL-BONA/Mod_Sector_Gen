@@ -1,4 +1,4 @@
-package mod.planets;
+package mod.sectors;
 
 import arc.math.Mathf;
 import arc.util.noise.Simplex;
