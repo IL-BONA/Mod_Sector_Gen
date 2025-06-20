@@ -1,0 +1,1 @@
+rm build/libs/Mod_Sector_GenDesktop.jar ; ./gradlew jar ; # mv build/libs/Mod_Sector_GenDesktop.jar ~/.local/share/Mindustry/mods/
