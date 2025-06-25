@@ -1,17 +1,17 @@
 #the mod name as displayed in-game
-displayName: "Test"
+displayName: "RandomPlanet"
 
 #the internal name of your mod
-name: "test"
+name: "RandomPlanet"
 
 #your name
-author: "You"
+author: "Lupino3 IL_BONA"
 
 #the fully qualified main class of the mod
-main: "mod.Main"
+main: "RandomPlanet.Main"
 
 #the mod description as seen in the mod dialog
-description: "Test"
+description: "Random planet generator"
 
 #the mod version
 version: "0.1"
