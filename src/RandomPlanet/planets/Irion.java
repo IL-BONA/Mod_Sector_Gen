@@ -1,4 +1,4 @@
-package mod.planets;
+package RandomPlanet.planets;
 
 import mindustry.type.Planet;
 import mindustry.content.Items;

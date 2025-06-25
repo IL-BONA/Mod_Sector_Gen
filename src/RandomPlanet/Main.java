@@ -1,10 +1,8 @@
-package mod;
+package RandomPlanet;
 
+import RandomPlanet.planets.PlanetManager;
 import arc.util.Log;
 import mindustry.mod.Mod;
-import mindustry.type.Planet;
-import mod.planets.Irion;
-import mod.planets.PlanetManager;
 
 
 public class Main extends Mod {

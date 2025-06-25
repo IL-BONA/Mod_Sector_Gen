@@ -1,4 +1,4 @@
-package mod.sectors;
+package RandomPlanet.sectors;
 
 import mindustry.content.Blocks;
 import mindustry.world.Block;

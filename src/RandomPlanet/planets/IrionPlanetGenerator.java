@@ -1,5 +1,7 @@
-package mod.planets;
+package RandomPlanet.planets;
 
+import RandomPlanet.sectors.OreConfig;
+import RandomPlanet.sectors.OreGenerator;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
@@ -14,8 +16,6 @@ import mindustry.type.Sector;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.TileGen;
-import mod.sectors.OreConfig;
-import mod.sectors.OreGenerator;
 
 public class IrionPlanetGenerator extends PlanetGenerator {
 

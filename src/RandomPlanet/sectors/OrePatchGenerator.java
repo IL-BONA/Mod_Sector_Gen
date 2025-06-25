@@ -1,4 +1,4 @@
-package mod.sectors;
+package RandomPlanet.sectors;
 
 import arc.math.Mathf;
 import arc.util.noise.Simplex;
