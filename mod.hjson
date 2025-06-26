@@ -5,11 +5,11 @@ displayName: "RandomPlanet"
 name: "RandomPlanet"
 
 #your name
-author: "Lupino3 IL_BONA"
+author: "Lupino3 IL_BONA Rusk"
 
 #the fully qualified main class of the mod
-#main: "RandomPlanet.Main"
-main: "test.Main"
+main: "RandomPlanet.Main"
+#main: "test.Main"
 
 #the mod description as seen in the mod dialog
 description: "Random planet generator"
