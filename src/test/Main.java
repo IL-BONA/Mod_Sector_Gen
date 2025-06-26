@@ -4,9 +4,9 @@ import arc.util.Log;
 import mindustry.mod.Mod;
 import test.planets.RPPlanets;
 
-public class RandomPlanetTest extends Mod {
+public class Main extends Mod {
 
-    public RandomPlanetTest() {
+    public Main() {
         Log.info("[RandomPlanet] Loading RandomPlanet Mod...");
     }
 

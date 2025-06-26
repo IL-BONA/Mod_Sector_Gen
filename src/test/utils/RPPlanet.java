@@ -1,6 +1,6 @@
 package test.utils;
 
-import mindustry.maps.planet.SerpuloPlanetGenerator;
+import mindustry.graphics.g3d.HexMesh;
 import mindustry.type.Planet;
 
 public class RPPlanet {
@@ -8,6 +8,10 @@ public class RPPlanet {
     public static Planet createDefaultPlanet(String name, Planet parent, float radius, int sectorSize) {
         Planet ret = new Planet(name, parent, radius, sectorSize) {
             {
+                // Generator that will make the planet.
+                // Can be null for planets that don't need to be landed on.
+                // If you want to use a this.mashloader, first create a planet generator
+                generator = RPPlanetGenerator.createDefaultPlanetGenerator();
                 // Whether this planet is listed in the planet access UI.
                 accessible = true;
                 // If true, waves are created on sector loss.
@@ -19,10 +23,6 @@ public class RPPlanet {
                 // defaultCore = Blocks.coreShard;
                 // Whether to draw the orbital circle.
                 drawOrbit = true;
-                // Generator that will make the planet.
-                // Can be null for planets that don't need to be landed on.
-                // generator = RPPlanetGenerator.createDefaultPlanetGenerator();
-                generator = new SerpuloPlanetGenerator();
                 // Grid used for the sectors on the planet.
                 // Null if this planet can't be landed on.
                 // grid = (ret.grid == null) ? PlanetGrid.create(sectorSize) : ret.grid;
@@ -38,7 +38,7 @@ public class RPPlanet {
                 // The root parent of the whole solar system this planet is in.
                 // solarSystem = parent.solarSystem;
                 // The default starting sector displayed to the map dialog.
-                // startSector = 0;
+                startSector = 255;
                 // Default root node shown when the tech tree is opened here.
                 // techTree = null;
                 // Content (usually planet-specific) that is unlocked upon landing here.
@@ -47,8 +47,14 @@ public class RPPlanet {
                 // if false, it will not be draw in the map, but it exist
                 // visible = true;
                 // Whether this content is always unlocked in the tech tree.
-                // But apparently it also serves to make the planet visible. Without it is useless visible.
+                // But apparently it also serves to make the planet visible. Without it is
+                // useless visible.
                 alwaysUnlocked = true;
+                // Loads the mesh. Clientside only. Defaults to a boring sphere mesh.
+                meshLoader = () -> new HexMesh(this, 6);
+                // Loads the mesh. Clientside only. Defaults to a boring sphere mesh.
+                // cloudMeshLoader
+                orbitTime = 60f;
             }
         };
         return ret;
