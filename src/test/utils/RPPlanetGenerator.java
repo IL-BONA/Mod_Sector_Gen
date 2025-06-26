@@ -11,6 +11,7 @@ import arc.util.Tmp;
 import arc.util.noise.Ridged;
 import arc.util.noise.Simplex;
 import mindustry.content.Blocks;
+import mindustry.game.Team;
 import mindustry.maps.generators.BlankPlanetGenerator;
 import mindustry.maps.generators.PlanetGenerator;
 import mindustry.type.Sector;
@@ -102,6 +103,9 @@ public class RPPlanetGenerator {
                         tiles.set(x, y, new Tile(x, y, gen.floor, gen.overlay, gen.block));
                     }
                 }
+
+
+                tiles.getn(width/2, height/2).setBlock(Blocks.coreNucleus, Team.sharded);
 
                 generate(tiles);
             }
