@@ -1,32 +1,33 @@
 package RandomPlanet;
 
-import RandomPlanet.planets.PlanetManager;
 import arc.util.Log;
 import mindustry.mod.Mod;
-
+import RandomPlanet.planets.RPPlanets;
 
 public class Main extends Mod {
 
     public Main() {
-        Log.info("Loading Test Mod...");
+        Log.info("[RandomPlanet] Loading RandomPlanet Mod...");
     }
 
     @Override
     public void init() {
-        Log.info("Initializing Test Mod...");
-        try {
-            // Add your initialization code here
-            
-        } catch(Exception e) {
-            Log.err("Test Mod failed to initialize", e);
-        }
+        // Initialization code here
+        Log.info("[RandomPlanet] Initializing RandomPlanet Mod...");
+
+        
     }
 
     @Override
     public void loadContent() {
-        Log.info("Loading Test Mod content...");
+        // Load content here
+        Log.info("[RandomPlanet] Loading RandomPlanet Mod content...");
 
-        PlanetManager.getInstance();
+        Log.info("[RandomPlanet] Loading planets...");
+        RPPlanets.load();
 
+        Log.info("[RandomPlanet] Initializing planets...");
+        RPPlanets.init();
     }
+
 }

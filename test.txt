@@ -1,1 +1,26 @@
+// a cosa divrebbero servire queste variabili?
+private Seq<Block> allowedOres = Seq.with(Blocks.oreCopper, Blocks.oreLead);
+private ObjectMap<Block, Float> oreThresholdOverrides = new ObjectMap<>();
+private float shapeSmoothness = 0.8f;
+private boolean respectTerrain = true;
+private int modeType = 0;
+private float noiseThreshold = 0.4f;
+// non sono sicuro se queste variabili siano necessarie
+private boolean avoidCenter = true;
+private int centerAvoidRadius = 12;
+private boolean allowMixedOres = false;
 
+private float clusterSpread = 8f;
+private int clustersPerRegion = 3;
+private float veinLength = 15f;
+private float veinThickness = 1.2f;
+private float veinCurvature = 0.3f;
+private int maxVeinsPerArea = 2;
+private float scatterRadius = 12f;
+private int scatterCount = 8;
+private float noiseOctaves = 4f;
+private float noisePersistence = 0.6f;
+private float edgeFalloff = 0.1f;
+private boolean avoidWater = true;
+private boolean preferElevation = false;
+private float elevationBias = 0.0f;
