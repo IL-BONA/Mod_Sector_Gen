@@ -18,7 +18,9 @@ public class Main extends Mod {
 
     @Override
     public void loadContent() {
+
         // Load content here
+
         Log.info("[RandomPlanet] Loading RandomPlanet Mod content...");
 
         Log.info("[RandomPlanet] Loading planets...");
