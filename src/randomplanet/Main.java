@@ -1,8 +1,8 @@
-package test;
+package randomplanet;
 
 import arc.util.Log;
 import mindustry.mod.Mod;
-import test.planets.RPPlanets;
+import randomplanet.planets.RPPlanets;
 
 public class Main extends Mod {
 
@@ -14,8 +14,6 @@ public class Main extends Mod {
     public void init() {
         // Initialization code here
         Log.info("[RandomPlanet] Initializing RandomPlanet Mod...");
-
-        
     }
 
     @Override

@@ -9,7 +9,7 @@ author: "Lupino3 IL_BONA"
 
 #the fully qualified main class of the mod
 #main: "RandomPlanet.Main"
-main: "test.Main"
+main: "randomplanet.Main"
 
 #the mod description as seen in the mod dialog
 description: "Random planet generator"

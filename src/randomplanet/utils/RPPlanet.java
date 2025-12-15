@@ -1,4 +1,4 @@
-package test.utils;
+package randomplanet.utils;
 
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.type.Planet;

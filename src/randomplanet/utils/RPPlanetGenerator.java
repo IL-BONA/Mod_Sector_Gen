@@ -1,6 +1,5 @@
-package test.utils;
+package randomplanet.utils;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -120,8 +119,10 @@ public class RPPlanetGenerator {
 
             private Block getBlock(Vec3 position) {
                 // Logic to determine the block based on position
-                int ind1 = (int)((Simplex.noise3d(seed, 7f, 0.5f, scl, position.x, position.y, position.z) + 1f) /2f * arr.length),
-                    ind2 = (int)((Simplex.noise3d(seed + 1, 7f, 0.5f, scl, position.x, position.y, position.z) + 1f) /2f * arr[ind1].length);
+                int ind1 = (int) ((Simplex.noise3d(seed, 7f, 0.5f, scl, position.x, position.y, position.z) + 1f) / 2f
+                        * arr.length),
+                        ind2 = (int) ((Simplex.noise3d(seed + 1, 7f, 0.5f, scl, position.x, position.y, position.z)
+                                + 1f) / 2f * arr[ind1].length);
                 Block ret = arr[ind1][ind2];
                 return ret;
             }

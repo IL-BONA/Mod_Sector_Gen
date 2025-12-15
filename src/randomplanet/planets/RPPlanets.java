@@ -1,15 +1,13 @@
-package test.planets;
+package randomplanet.planets;
 
-import mindustry.content.Planets;
 import mindustry.type.Planet;
-import test.utils.RPPlanet;
 
 public class RPPlanets {
 
     public static Planet irion;
 
     public static void load() {
-        irion = RPPlanet.createDefaultPlanet("Irion", Planets.sun, 1f, 3);
+        irion = new Irion();
     }
 
     public static void init() {

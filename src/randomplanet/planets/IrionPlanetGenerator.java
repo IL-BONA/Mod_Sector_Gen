@@ -1,7 +1,7 @@
-package RandomPlanet.planets;
+package randomplanet.planets;
 
-import RandomPlanet.sectors.OreConfig;
-import RandomPlanet.sectors.OreGenerator;
+import randomplanet.sectors.OreConfig;
+import randomplanet.sectors.OreGenerator;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
@@ -15,7 +15,6 @@ import mindustry.maps.generators.PlanetGenerator;
 import mindustry.type.Sector;
 import mindustry.world.Block;
 import mindustry.world.Tile;
-import mindustry.world.TileGen;
 
 public class IrionPlanetGenerator extends PlanetGenerator {
 
@@ -34,13 +33,8 @@ public class IrionPlanetGenerator extends PlanetGenerator {
             Blocks.sporeMoss, Blocks.shale,
             Blocks.moss, Blocks.shale);
 
-    private final Block[] floor = { Blocks.sand, Blocks.water, Blocks.deepwater, Blocks.stone };
-    private final Block[] overlay = { Blocks.oreCopper, Blocks.oreLead, Blocks.oreScrap, Blocks.oreCoal,
-            Blocks.oreTitanium, Blocks.oreThorium,
-            Blocks.oreBeryllium, Blocks.oreTungsten, Blocks.oreCrystalThorium };
-    private final Block[] block = { Blocks.air };
-
     @Override
+
     // Il blocco determina il colore dell'atmosphera esterna
     // Quella che era diventata enorme
     public Color getColor(Vec3 position) {
@@ -130,7 +124,7 @@ public class IrionPlanetGenerator extends PlanetGenerator {
     }
 
     @Override
-    public void generate() { //DIOCANE
+    public void generate() {
         // Initialize ore generator
         oreGenerator = new OreGenerator(tiles, seed + oreSeed);
 
@@ -147,36 +141,36 @@ public class IrionPlanetGenerator extends PlanetGenerator {
     private void generatePlanetOres() {
         // Custom ore configurations for Irion planet
         OreConfig[] irionOreConfigs = {
-            // Common ores - moderate abundance
-            new OreConfig(Blocks.oreCopper, 0.25f, 3, 8, 0.6f, 0.9f, 0.35f, 15, false,
-                Blocks.stone, Blocks.sand, Blocks.basalt),
-            
-            new OreConfig(Blocks.oreCoal, 0.22f, 3, 7, 0.55f, 1.0f, 0.4f, 18, false,
-                Blocks.stone, Blocks.sand, Blocks.darksand),
-            
-            new OreConfig(Blocks.oreLead, 0.20f, 2, 6, 0.5f, 1.2f, 0.45f, 20, true,
-                Blocks.stone, Blocks.basalt, Blocks.darksand),
-            
-            // Uncommon ores - moderate abundance
-            new OreConfig(Blocks.oreScrap, 0.15f, 2, 5, 0.4f, 1.4f, 0.5f, 25, true,
-                Blocks.stone, Blocks.basalt, Blocks.sand),
-            
-            new OreConfig(Blocks.oreTitanium, 0.12f, 2, 4, 0.35f, 1.6f, 0.55f, 30, true,
-                Blocks.stone, Blocks.basalt),
-            
-            // Rare ores - clustered generation
-            new OreConfig(Blocks.oreThorium, 0.08f, 1, 3, 0.25f, 1.8f, 0.6f, 35, true,
-                Blocks.stone, Blocks.basalt),
-            
-            new OreConfig(Blocks.oreBeryllium, 0.10f, 2, 4, 0.3f, 1.7f, 0.58f, 32, true,
-                Blocks.stone, Blocks.basalt, Blocks.hotrock),
-            
-            // Very rare ores - highly clustered
-            new OreConfig(Blocks.oreTungsten, 0.06f, 1, 3, 0.2f, 2.0f, 0.65f, 40, true,
-                Blocks.stone, Blocks.basalt),
-            
-            new OreConfig(Blocks.oreCrystalThorium, 0.04f, 1, 2, 0.15f, 2.5f, 0.7f, 45, true,
-                Blocks.stone)
+                // Common ores - moderate abundance
+                new OreConfig(Blocks.oreCopper, 0.25f, 3, 8, 0.6f, 0.9f, 0.35f, 15, false,
+                        Blocks.stone, Blocks.sand, Blocks.basalt),
+
+                new OreConfig(Blocks.oreCoal, 0.22f, 3, 7, 0.55f, 1.0f, 0.4f, 18, false,
+                        Blocks.stone, Blocks.sand, Blocks.darksand),
+
+                new OreConfig(Blocks.oreLead, 0.20f, 2, 6, 0.5f, 1.2f, 0.45f, 20, true,
+                        Blocks.stone, Blocks.basalt, Blocks.darksand),
+
+                // Uncommon ores - moderate abundance
+                new OreConfig(Blocks.oreScrap, 0.15f, 2, 5, 0.4f, 1.4f, 0.5f, 25, true,
+                        Blocks.stone, Blocks.basalt, Blocks.sand),
+
+                new OreConfig(Blocks.oreTitanium, 0.12f, 2, 4, 0.35f, 1.6f, 0.55f, 30, true,
+                        Blocks.stone, Blocks.basalt),
+
+                // Rare ores - clustered generation
+                new OreConfig(Blocks.oreThorium, 0.08f, 1, 3, 0.25f, 1.8f, 0.6f, 35, true,
+                        Blocks.stone, Blocks.basalt),
+
+                new OreConfig(Blocks.oreBeryllium, 0.10f, 2, 4, 0.3f, 1.7f, 0.58f, 32, true,
+                        Blocks.stone, Blocks.basalt, Blocks.hotrock),
+
+                // Very rare ores - highly clustered
+                new OreConfig(Blocks.oreTungsten, 0.06f, 1, 3, 0.2f, 2.0f, 0.65f, 40, true,
+                        Blocks.stone, Blocks.basalt),
+
+                new OreConfig(Blocks.oreCrystalThorium, 0.04f, 1, 2, 0.15f, 2.5f, 0.7f, 45, true,
+                        Blocks.stone)
         };
 
         // Generate ores with custom configuration
@@ -189,13 +183,13 @@ public class IrionPlanetGenerator extends PlanetGenerator {
     private void generateCoreArea() {
         int coreX = tiles.width / 2;
         int coreY = tiles.height / 2;
-        
+
         // Create core zone floor
         surround(Blocks.coreNucleus, coreX, coreY, Blocks.coreZone);
-        
+
         // Place the core
         tiles.getn(coreX, coreY).setBlock(Blocks.coreNucleus, Team.sharded);
-        
+
         // Clear ores around core for better starting area
         clearOresAroundCore(coreX, coreY, 8);
     }
