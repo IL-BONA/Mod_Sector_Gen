@@ -38,15 +38,36 @@ public class IrionPlanetGenerator extends PlanetGenerator {
         sector.generateEnemyBase = rand.chance(0.3);
     }
 
-    // Called EVERY TIME you land on this sector
+    OreConfig oreConfig = new OreConfig(
+            Blocks.oreCopper,
+            0.5f,
+            8,
+            16,
+            0.8f,
+            0.01f,
+            0.5f,
+            16,
+            true,
+            Blocks.stone, Blocks.sand);
+
+    // Called FIRST TIME you land on this sector
     @Override
-    public void generate(Tiles tiles, Sector sec, int seed) {
-        // Generate actual terrain
-        for (int x = 0; x < tiles.width; x++) {
-            for (int y = 0; y < tiles.height; y++) {
-                // Place floor tiles, ores, etc.
-            }
-        }
+    public void generate() {
+        /*
+         * Has access to the following:
+         *
+         * this.tiles // The tile grid
+         * this.sector // Current sector being generated
+         * this.rand // Seeded random (deterministic)
+         * this.width // tiles.width
+         * this.height // tiles.height
+         */
+
+        OreGenerator Generator = new OreGenerator(this.tiles, this.sector.id);
+        Generator.generateOres(this.sector.id, oreConfig);
+
+        // Generate core area
+        generateCoreArea();
     }
 
     /**

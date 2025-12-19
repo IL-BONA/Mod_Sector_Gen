@@ -1,6 +1,7 @@
 package randomplanet.sectors;
 
 import arc.math.Mathf;
+import arc.math.Rand;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.noise.Simplex;
@@ -9,11 +10,9 @@ import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
 
-import java.util.Random;
-
 public class OreGenerator {
 
-    private final Random random;
+    private final Rand rand;
     private final Tiles tiles;
     private final int width, height;
     private final OrePatchGenerator patchGenerator;
@@ -44,7 +43,7 @@ public class OreGenerator {
         this.tiles = tiles;
         this.width = tiles.width;
         this.height = tiles.height;
-        this.random = new Random(seed);
+        this.rand = new Rand(seed);
         this.patchGenerator = new OrePatchGenerator(tiles);
     }
 
@@ -59,7 +58,7 @@ public class OreGenerator {
      * Generate ores with custom configuration
      */
     public void generateOres(int seed, OreConfig... oreConfigs) {
-        this.random.setSeed(seed);
+        this.rand.setSeed(seed);
 
         for (OreConfig config : oreConfigs) {
             if (config.clusterMode) {
@@ -75,24 +74,19 @@ public class OreGenerator {
      * rari/preziosi)
      */
     private void generateClusteredOre(OreConfig config, int baseSeed) {
-        // Calcola il seme per la generazione dei minerali
-        int oreSeed = baseSeed + config.oreType.id * 1000;
-
-        // Crea una sequenza per contenere i centri dei cluster
+        // Create a sequence to hold cluster centers
         Seq<Vec2> clusterCenters = new Seq<>();
 
-        // Calcola il numero di cluster da generare basandosi sulla probabilità di spawn
-        // e sulla distanza minima tra i cluster
+        // Calculate number of clusters based on spawn chance and min distance
         int numClusters = (int) (width * height * config.spawnChance / (config.minDistance * config.minDistance));
 
-        // Genera i centri dei cluster
+        // Generate cluster centers
         for (int i = 0; i < numClusters; i++) {
-            // Genera coordinate casuali per il centro del cluster
-            float x = random.nextFloat() * width;
-            float y = random.nextFloat() * height;
+            // Generate random coordinates for cluster center
+            float x = rand.random(width);
+            float y = rand.random(height);
 
-            // Controlla se la posizione generata è a una distanza minima sufficiente dagli
-            // altri cluster
+            // Check if valid location (distance from other clusters)
             boolean validLocation = true;
             for (Vec2 center : clusterCenters) {
                 if (center.dst(x, y) < config.minDistance) {
@@ -101,15 +95,15 @@ public class OreGenerator {
                 }
             }
 
-            // Se la posizione è valida, aggiunge il centro del cluster alla sequenza
+            // If valid, add to list
             if (validLocation) {
                 clusterCenters.add(new Vec2(x, y));
             }
         }
 
-        // Genera patch di minerali attorno ai centri dei cluster
+        // Generate ore patches around centers
         for (Vec2 center : clusterCenters) {
-            generateOreCluster(config, center, oreSeed);
+            generateOreCluster(config, center);
         }
     }
 
@@ -117,6 +111,7 @@ public class OreGenerator {
      * Generate scattered ore (for common ores)
      */
     private void generateScatteredOre(OreConfig config, int baseSeed) {
+        // OreSeed used for Simplex noise consistency
         int oreSeed = baseSeed + config.oreType.id * 1000;
 
         for (int y = 0; y < height; y++) {
@@ -128,7 +123,7 @@ public class OreGenerator {
                 if (tile.overlay() != Blocks.air)
                     continue; // Don't override existing overlays
 
-                // Use noise for natural distribution
+                // Use noise for natural distribution (Uses oreSeed for coordinate consistency)
                 float noise = Simplex.noise2d(oreSeed, (double) (x * config.noiseScale),
                         (double) (y * config.noiseScale), 0.6, 0.0, 0.0);
                 float distanceNoise = Simplex.noise2d(oreSeed + 1000, (double) (x * config.noiseScale * 0.5f),
@@ -137,8 +132,9 @@ public class OreGenerator {
                 float combinedNoise = (noise + distanceNoise * 0.3f) * config.density;
 
                 if (combinedNoise > config.noiseThreshold) {
-                    if (random.nextFloat() < config.spawnChance * 0.5f) {
-                        generateSmallOrePatch(config, x, y, oreSeed);
+                    // Use deterministic rand for placement decision
+                    if (rand.random(1f) < config.spawnChance * 0.5f) {
+                        generateSmallOrePatch(config, x, y);
                     }
                 }
             }
@@ -148,23 +144,21 @@ public class OreGenerator {
     /**
      * Generate a cluster of ore patches around a center point
      */
-    private void generateOreCluster(OreConfig config, Vec2 center, int seed) {
-        Random clusterRandom = new Random(seed + (int) (center.x * center.y));
-
-        int numPatches = clusterRandom.nextInt(3) + 2; // 2-4 patches per cluster
+    private void generateOreCluster(OreConfig config, Vec2 center) {
+        // No local random, use class rand
+        int numPatches = rand.random(2, 4); // 2-4 patches
         float clusterRadius = config.maxPatchSize * 2.5f;
 
         for (int i = 0; i < numPatches; i++) {
-            float angle = clusterRandom.nextFloat() * 6.28f; // 2π
-            float distance = clusterRandom.nextFloat() * clusterRadius;
+            float angle = rand.random(6.28f); // 2π
+            float distance = rand.random(clusterRadius);
 
             int patchX = (int) (center.x + Mathf.cos(angle) * distance);
             int patchY = (int) (center.y + Mathf.sin(angle) * distance);
 
             if (patchX >= 0 && patchX < width && patchY >= 0 && patchY < height) {
-                int patchSize = clusterRandom.nextInt(config.maxPatchSize - config.minPatchSize + 1)
-                        + config.minPatchSize;
-                generateOrePatch(config, patchX, patchY, patchSize, seed + i);
+                int patchSize = rand.random(config.minPatchSize, config.maxPatchSize);
+                generateOrePatch(config, patchX, patchY, patchSize);
             }
         }
     }
@@ -172,34 +166,31 @@ public class OreGenerator {
     /**
      * Generate small ore patches for scattered generation
      */
-    private void generateSmallOrePatch(OreConfig config, int centerX, int centerY, int seed) {
-        Random patchRandom = new Random(seed + centerX * 1000 + centerY);
-        int patchSize = patchRandom.nextInt(Math.min(config.maxPatchSize, 6) - config.minPatchSize + 1)
-                + config.minPatchSize;
-        generateOrePatch(config, centerX, centerY, patchSize, seed);
+    private void generateSmallOrePatch(OreConfig config, int centerX, int centerY) {
+        // No local random, use class rand
+        int patchSize = rand.random(config.minPatchSize, Math.min(config.maxPatchSize, 6));
+        generateOrePatch(config, centerX, centerY, patchSize);
     }
 
     /**
      * Generate a single ore patch using various shapes
      */
-    private void generateOrePatch(OreConfig config, int centerX, int centerY, int size, int seed) {
-        Random patchRandom = new Random(seed + centerX * 10000 + centerY * 100);
-
+    private void generateOrePatch(OreConfig config, int centerX, int centerY, int size) {
         // Choose patch shape
-        PatchShape shape = PatchShape.values()[patchRandom.nextInt(PatchShape.values().length)];
+        PatchShape shape = PatchShape.values()[rand.random(PatchShape.values().length - 1)];
 
         switch (shape) {
             case CIRCULAR:
-                patchGenerator.generateCircularPatch(config, centerX, centerY, size, patchRandom);
+                patchGenerator.generateCircularPatch(config, centerX, centerY, size, rand);
                 break;
             case OVAL:
-                patchGenerator.generateOvalPatch(config, centerX, centerY, size, patchRandom);
+                patchGenerator.generateOvalPatch(config, centerX, centerY, size, rand);
                 break;
             case IRREGULAR:
-                patchGenerator.generateIrregularPatch(config, centerX, centerY, size, patchRandom);
+                patchGenerator.generateIrregularPatch(config, centerX, centerY, size, rand);
                 break;
             case LINEAR:
-                patchGenerator.generateLinearPatch(config, centerX, centerY, size, patchRandom);
+                patchGenerator.generateLinearPatch(config, centerX, centerY, size, rand);
                 break;
         }
     }

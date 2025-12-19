@@ -15,9 +15,32 @@ public class OreConfig {
     public boolean clusterMode; // Whether to use cluster-based generation
     public Block[] allowedFloors; // Which floor types this ore can spawn on
 
-    public OreConfig(Block oreType, float spawnChance, int minPatchSize, int maxPatchSize,
-            float density, float noiseScale, float noiseThreshold, int minDistance,
-            boolean clusterMode, Block... allowedFloors) {
+    /**
+     * @brief Configuration for ore generation settings.
+     *
+     * @param oreType The type of ore block to spawn.
+     * @param spawnChance Base chance for this ore to spawn (0.0 to 1.0).
+     * @param minPatchSize Minimum size of ore patches.
+     * @param maxPatchSize Maximum size of ore patches.
+     * @param density How dense the ore patches should be (0.0 to 1.0).
+     * @param noiseScale Scale for noise-based distribution.
+     * @param noiseThreshold Threshold for noise-based placement.
+     * @param minDistance Minimum distance between large patches.
+     * @param clusterMode Whether to use cluster-based generation.
+     * @param allowedFloors Which floor types this ore can spawn on.
+     */
+
+    public OreConfig(Block oreType, 
+        float spawnChance, // Base chance for this ore to spawn (0.0 to 1.0)
+        int minPatchSize, // Minimum size of ore patches
+        int maxPatchSize, // Maximum size of ore patches
+        float density, // How dense the ore patches should be (0.0 to 1.0)
+        float noiseScale, // Scale for noise-based distribution
+        float noiseThreshold, // Threshold for noise-based placement
+        int minDistance, // Minimum distance between large patches
+        boolean clusterMode, // Whether to use cluster-based generation
+        Block... allowedFloors) { // Which floor types this ore can spawn on
+
         this.oreType = oreType;
         this.spawnChance = spawnChance;
         this.minPatchSize = minPatchSize;

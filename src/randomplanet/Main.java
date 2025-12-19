@@ -28,6 +28,9 @@ public class Main extends Mod {
 
         Log.info("[RandomPlanet] Initializing planets...");
         RPPlanets.init();
+
+        Log.info("[RandomPlanet] Initializing UI...");
+        randomplanet.ui.IrionUI.init();
     }
 
 }

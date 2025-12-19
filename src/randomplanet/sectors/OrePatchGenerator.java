@@ -1,13 +1,12 @@
 package randomplanet.sectors;
 
 import arc.math.Mathf;
+import arc.math.Rand;
 import arc.util.noise.Simplex;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.Tiles;
-
-import java.util.Random;
 
 public class OrePatchGenerator {
     private final Tiles tiles;
@@ -19,7 +18,7 @@ public class OrePatchGenerator {
         this.height = tiles.height;
     }
 
-    public void generateCircularPatch(OreConfig config, int centerX, int centerY, int size, Random patchRandom) {
+    public void generateCircularPatch(OreConfig config, int centerX, int centerY, int size, Rand rand) {
         float radius = size / 2f;
 
         for (int dy = -size; dy <= size; dy++) {
@@ -33,7 +32,7 @@ public class OrePatchGenerator {
                 float distance = Mathf.sqrt(dx * dx + dy * dy);
                 if (distance <= radius) {
                     float falloff = 1f - (distance / radius);
-                    if (patchRandom.nextFloat() < config.density * falloff) {
+                    if (rand.random(1f) < config.density * falloff) {
                         placeOre(config, x, y);
                     }
                 }
@@ -41,7 +40,7 @@ public class OrePatchGenerator {
         }
     }
 
-    public void generateOvalPatch(OreConfig config, int centerX, int centerY, int size, Random patchRandom) {
+    public void generateOvalPatch(OreConfig config, int centerX, int centerY, int size, Rand rand) {
         float radiusX = size / 2f;
         float radiusY = size / 3f;
 
@@ -57,7 +56,7 @@ public class OrePatchGenerator {
                 float normalizedY = dy / radiusY;
 
                 if (normalizedX * normalizedX + normalizedY * normalizedY <= 1f) {
-                    if (patchRandom.nextFloat() < config.density) {
+                    if (rand.random(1f) < config.density) {
                         placeOre(config, x, y);
                     }
                 }
@@ -65,7 +64,7 @@ public class OrePatchGenerator {
         }
     }
 
-    public void generateIrregularPatch(OreConfig config, int centerX, int centerY, int size, Random patchRandom) {
+    public void generateIrregularPatch(OreConfig config, int centerX, int centerY, int size, Rand rand) {
         float radius = size / 2f;
 
         for (int dy = -size; dy <= size; dy++) {
@@ -82,7 +81,7 @@ public class OrePatchGenerator {
 
                 if (distance + noiseOffset <= radius) {
                     float falloff = 1f - (distance / radius);
-                    if (patchRandom.nextFloat() < config.density * falloff) {
+                    if (rand.random(1f) < config.density * falloff) {
                         placeOre(config, x, y);
                     }
                 }
@@ -90,8 +89,8 @@ public class OrePatchGenerator {
         }
     }
 
-    public void generateLinearPatch(OreConfig config, int centerX, int centerY, int size, Random patchRandom) {
-        float angle = patchRandom.nextFloat() * 6.28f;
+    public void generateLinearPatch(OreConfig config, int centerX, int centerY, int size, Rand rand) {
+        float angle = rand.random(6.28f);
         int length = size * 2;
         int thickness = Math.max(1, size / 3);
 
@@ -104,7 +103,7 @@ public class OrePatchGenerator {
                 int offsetY = y + (int) (Mathf.sin(angle + 1.57f) * t);
 
                 if (offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height) {
-                    if (patchRandom.nextFloat() < config.density * (1f - Math.abs(t) / (float) thickness)) {
+                    if (rand.random(1f) < config.density * (1f - Math.abs(t) / (float) thickness)) {
                         placeOre(config, offsetX, offsetY);
                     }
                 }
