@@ -14,6 +14,7 @@ public class Main extends Mod {
     public void init() {
         // Initialization code here
         Log.info("[RandomPlanet] Initializing RandomPlanet Mod...");
+        randomplanet.ui.OreConfigMenu.init();
     }
 
     @Override
@@ -30,7 +31,7 @@ public class Main extends Mod {
         RPPlanets.init();
 
         Log.info("[RandomPlanet] Initializing UI...");
-        randomplanet.ui.IrionUI.init();
+        randomplanet.ui.OreConfigMenu.init();
     }
 
 }

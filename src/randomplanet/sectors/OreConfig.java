@@ -1,45 +1,33 @@
 package randomplanet.sectors;
 
+import arc.Core;
+import arc.struct.Seq;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
+import mindustry.Vars;
 
 public class OreConfig {
     public Block oreType;
-    public float spawnChance; // Base chance for this ore to spawn (0.0 to 1.0)
-    public int minPatchSize; // Minimum size of ore patches
-    public int maxPatchSize; // Maximum size of ore patches
-    public float density; // How dense the ore patches should be (0.0 to 1.0)
-    public float noiseScale; // Scale for noise-based distribution
-    public float noiseThreshold; // Threshold for noise-based placement
-    public int minDistance; // Minimum distance between large patches
-    public boolean clusterMode; // Whether to use cluster-based generation
-    public Block[] allowedFloors; // Which floor types this ore can spawn on
-
-    /**
-     * @brief Configuration for ore generation settings.
-     *
-     * @param oreType The type of ore block to spawn.
-     * @param spawnChance Base chance for this ore to spawn (0.0 to 1.0).
-     * @param minPatchSize Minimum size of ore patches.
-     * @param maxPatchSize Maximum size of ore patches.
-     * @param density How dense the ore patches should be (0.0 to 1.0).
-     * @param noiseScale Scale for noise-based distribution.
-     * @param noiseThreshold Threshold for noise-based placement.
-     * @param minDistance Minimum distance between large patches.
-     * @param clusterMode Whether to use cluster-based generation.
-     * @param allowedFloors Which floor types this ore can spawn on.
-     */
+    public float spawnChance;
+    public int minPatchSize;
+    public int maxPatchSize;
+    public float density;
+    public float noiseScale;
+    public float noiseThreshold;
+    public int minDistance;
+    public boolean clusterMode;
+    public Block[] allowedFloors;
 
     public OreConfig(Block oreType, 
-        float spawnChance, // Base chance for this ore to spawn (0.0 to 1.0)
-        int minPatchSize, // Minimum size of ore patches
-        int maxPatchSize, // Maximum size of ore patches
-        float density, // How dense the ore patches should be (0.0 to 1.0)
-        float noiseScale, // Scale for noise-based distribution
-        float noiseThreshold, // Threshold for noise-based placement
-        int minDistance, // Minimum distance between large patches
-        boolean clusterMode, // Whether to use cluster-based generation
-        Block... allowedFloors) { // Which floor types this ore can spawn on
+        float spawnChance,
+        int minPatchSize,
+        int maxPatchSize,
+        float density,
+        float noiseScale,
+        float noiseThreshold,
+        int minDistance,
+        boolean clusterMode,
+        Block... allowedFloors) {
 
         this.oreType = oreType;
         this.spawnChance = spawnChance;
@@ -52,5 +40,35 @@ public class OreConfig {
         this.clusterMode = clusterMode;
         this.allowedFloors = allowedFloors != null && allowedFloors.length > 0 ? allowedFloors
                 : new Block[] { Blocks.stone, Blocks.sand };
+    }
+    
+    // Save this ore config
+    public void save(String prefix) {
+        Core.settings.put(prefix + "-spawn-chance", spawnChance);
+        Core.settings.put(prefix + "-min-patch", minPatchSize);
+        Core.settings.put(prefix + "-max-patch", maxPatchSize);
+        Core.settings.put(prefix + "-density", density);
+        Core.settings.put(prefix + "-noise-scale", noiseScale);
+        Core.settings.put(prefix + "-noise-threshold", noiseThreshold);
+        Core.settings.put(prefix + "-min-distance", minDistance);
+        Core.settings.put(prefix + "-cluster-mode", clusterMode);
+    }
+    
+    // Load this ore config
+    public void load(String prefix) {
+        spawnChance = Core.settings.getFloat(prefix + "-spawn-chance", spawnChance);
+        minPatchSize = Core.settings.getInt(prefix + "-min-patch", minPatchSize);
+        maxPatchSize = Core.settings.getInt(prefix + "-max-patch", maxPatchSize);
+        density = Core.settings.getFloat(prefix + "-density", density);
+        noiseScale = Core.settings.getFloat(prefix + "-noise-scale", noiseScale);
+        noiseThreshold = Core.settings.getFloat(prefix + "-noise-threshold", noiseThreshold);
+        minDistance = Core.settings.getInt(prefix + "-min-distance", minDistance);
+        clusterMode = Core.settings.getBool(prefix + "-cluster-mode", clusterMode);
+    }
+    
+    // Create a copy with default values
+    public OreConfig copy() {
+        return new OreConfig(oreType, spawnChance, minPatchSize, maxPatchSize, 
+            density, noiseScale, noiseThreshold, minDistance, clusterMode, allowedFloors);
     }
 }

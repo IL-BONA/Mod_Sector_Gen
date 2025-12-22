@@ -1,20 +1,16 @@
 package randomplanet.planets;
 
 import randomplanet.sectors.OreConfig;
-import randomplanet.sectors.OreGenerator;
+import randomplanet.sectors.OreConfigManager;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.math.geom.Vec3;
-import arc.struct.ObjectMap;
-import arc.util.Tmp;
-import arc.util.noise.Simplex;
 import mindustry.content.Blocks;
 import mindustry.game.Team;
 import mindustry.maps.generators.PlanetGenerator;
 import mindustry.type.Sector;
 import mindustry.world.Block;
 import mindustry.world.Tile;
-import mindustry.world.Tiles;
 
 public class IrionPlanetGenerator extends PlanetGenerator {
 
@@ -51,23 +47,95 @@ public class IrionPlanetGenerator extends PlanetGenerator {
             Blocks.stone, Blocks.sand);
 
     // Called FIRST TIME you land on this sector
+    /*
+     * Has access to the following:
+     * this.tiles // The tile grid
+     * this.sector // Current sector being generated
+     * this.rand // Seeded random (deterministic)
+     * this.width // tiles.width
+     * this.height // tiles.height
+     */
     @Override
     public void generate() {
-        /*
-         * Has access to the following:
-         *
-         * this.tiles // The tile grid
-         * this.sector // Current sector being generated
-         * this.rand // Seeded random (deterministic)
-         * this.width // tiles.width
-         * this.height // tiles.height
-         */
 
-        OreGenerator Generator = new OreGenerator(this.tiles, this.sector.id);
-        Generator.generateOres(this.sector.id, oreConfig);
+        // Get ore configs
+        OreConfig copperConfig = OreConfigManager.getConfig(Blocks.oreCopper);
+        OreConfig leadConfig = OreConfigManager.getConfig(Blocks.oreLead);
+        OreConfig titaniumConfig = OreConfigManager.getConfig(Blocks.oreTitanium);
+
+        // Generate each ore type using its config
+        if (copperConfig != null) {
+            generateOre(copperConfig);
+        }
+
+        if (leadConfig != null) {
+            generateOre(leadConfig);
+        }
+
+        if (titaniumConfig != null) {
+            generateOre(titaniumConfig);
+        }
 
         // Generate core area
         generateCoreArea();
+    }
+
+    private void generateOre(OreConfig config) {
+        // Use config values for generation
+        if (!rand.chance(config.spawnChance))
+            return;
+
+        for (int x = 0; x < tiles.width; x++) {
+            for (int y = 0; y < tiles.height; y++) {
+                Tile tile = tiles.getn(x, y);
+
+                // Check if floor is allowed
+                boolean validFloor = false;
+                for (Block floor : config.allowedFloors) {
+                    if (tile.floor() == floor) {
+                        validFloor = true;
+                        break;
+                    }
+                }
+
+                if (!validFloor)
+                    continue;
+
+                // Noise-based placement
+                double noise = noise(x * config.noiseScale, y * config.noiseScale, 3, 0.5);
+
+                if (noise > config.noiseThreshold) {
+                    // Cluster mode or single placement
+                    if (config.clusterMode) {
+                        int patchSize = rand.random(config.minPatchSize, config.maxPatchSize);
+                        createOrePatch(x, y, config.oreType, patchSize, config.density);
+                    } else {
+                        if (rand.chance(config.density)) {
+                            tile.setOverlay(config.oreType);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void createOrePatch(int cx, int cy, Block ore, int size, float density) {
+        for (int dx = -size; dx <= size; dx++) {
+            for (int dy = -size; dy <= size; dy++) {
+                if (dx * dx + dy * dy > size * size)
+                    continue;
+
+                int x = cx + dx;
+                int y = cy + dy;
+
+                if (x < 0 || x >= tiles.width || y < 0 || y >= tiles.height)
+                    continue;
+
+                if (rand.chance(density)) {
+                    tiles.getn(x, y).setOverlay(ore);
+                }
+            }
+        }
     }
 
     /**
