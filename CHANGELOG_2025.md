@@ -36,6 +36,13 @@ This log documents the recent implementation of sector-specific persistence and 
     - *Symptoms*: Ore generation appears to not function correctly or produces unexpected results in the latest version.
     - *Investigation*: Reviewing `IrionPlanetGenerator` integration with `OreConfigManager`.
 
+3.  **UI Clipping**:
+    - *Status*: **Visual Bug**.
+    - *Symptoms*: The "Min distance between patches" label in the Ore config menu clips into the slider.
+
+## Next Implementations
+- **Allowed Floors**: Add the ability to configure which floor blocks an ore can spawn on directly within the Ore Config menu.
+
 ---
 
 ## Technical Details for Commit
