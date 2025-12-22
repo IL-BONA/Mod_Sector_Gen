@@ -31,7 +31,6 @@ public class Main extends Mod {
         RPPlanets.init();
 
         Log.info("[RandomPlanet] Initializing UI...");
-        randomplanet.ui.OreConfigMenu.init();
     }
 
 }

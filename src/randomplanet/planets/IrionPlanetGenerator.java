@@ -57,6 +57,8 @@ public class IrionPlanetGenerator extends PlanetGenerator {
      */
     @Override
     public void generate() {
+        // Load sector-specific config if available
+        OreConfigManager.load(this.sector);
 
         // Get ore configs
         OreConfig copperConfig = OreConfigManager.getConfig(Blocks.oreCopper);

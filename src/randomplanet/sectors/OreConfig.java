@@ -18,16 +18,16 @@ public class OreConfig {
     public boolean clusterMode;
     public Block[] allowedFloors;
 
-    public OreConfig(Block oreType, 
-        float spawnChance,
-        int minPatchSize,
-        int maxPatchSize,
-        float density,
-        float noiseScale,
-        float noiseThreshold,
-        int minDistance,
-        boolean clusterMode,
-        Block... allowedFloors) {
+    public OreConfig(Block oreType,
+            float spawnChance,
+            int minPatchSize,
+            int maxPatchSize,
+            float density,
+            float noiseScale,
+            float noiseThreshold,
+            int minDistance,
+            boolean clusterMode,
+            Block... allowedFloors) {
 
         this.oreType = oreType;
         this.spawnChance = spawnChance;
@@ -41,7 +41,7 @@ public class OreConfig {
         this.allowedFloors = allowedFloors != null && allowedFloors.length > 0 ? allowedFloors
                 : new Block[] { Blocks.stone, Blocks.sand };
     }
-    
+
     // Save this ore config
     public void save(String prefix) {
         Core.settings.put(prefix + "-spawn-chance", spawnChance);
@@ -53,7 +53,7 @@ public class OreConfig {
         Core.settings.put(prefix + "-min-distance", minDistance);
         Core.settings.put(prefix + "-cluster-mode", clusterMode);
     }
-    
+
     // Load this ore config
     public void load(String prefix) {
         spawnChance = Core.settings.getFloat(prefix + "-spawn-chance", spawnChance);
@@ -65,10 +65,22 @@ public class OreConfig {
         minDistance = Core.settings.getInt(prefix + "-min-distance", minDistance);
         clusterMode = Core.settings.getBool(prefix + "-cluster-mode", clusterMode);
     }
-    
+
+    // Clear this ore config settings
+    public void clear(String prefix) {
+        Core.settings.remove(prefix + "-spawn-chance");
+        Core.settings.remove(prefix + "-min-patch");
+        Core.settings.remove(prefix + "-max-patch");
+        Core.settings.remove(prefix + "-density");
+        Core.settings.remove(prefix + "-noise-scale");
+        Core.settings.remove(prefix + "-noise-threshold");
+        Core.settings.remove(prefix + "-min-distance");
+        Core.settings.remove(prefix + "-cluster-mode");
+    }
+
     // Create a copy with default values
     public OreConfig copy() {
-        return new OreConfig(oreType, spawnChance, minPatchSize, maxPatchSize, 
-            density, noiseScale, noiseThreshold, minDistance, clusterMode, allowedFloors);
+        return new OreConfig(oreType, spawnChance, minPatchSize, maxPatchSize,
+                density, noiseScale, noiseThreshold, minDistance, clusterMode, allowedFloors);
     }
 }
